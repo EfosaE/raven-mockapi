@@ -5,14 +5,36 @@ import AppError from './utils/appError';
 // import globalErrorHandler from './controllers/errorController';
 import authRouter from './routes/authRoute';
 import globalErrorHandler from './controllers/errorController';
+import session from 'express-session';
+import { sessionStore } from './utils/sessionStore';
+import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import userRouter from './routes/userRoute';
 
-// Create an Express application
+dotenv.config();
+
 const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
 
-// Manually initialize the database connection after the server is running
+// Initialize express-session
+app.use(
+  session({
+    store: sessionStore,
+    secret: process.env.SESSION_SECRET ?? 'default_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+  })
+);
+
+// Manually initialize the database connection to check its status
 const initializeDbConnection = async () => {
   try {
     // Testing the connection by running a simple query
@@ -22,9 +44,6 @@ const initializeDbConnection = async () => {
     console.error('Error connecting to the database:', error);
   }
 };
-
-// Run this function when the server is on
-initializeDbConnection();
 
 // Specify the port number for the server
 const port: number = 3000;
@@ -36,7 +55,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/auth', authRouter);
-
+app.use('/api/v1/users', userRouter);
 app.all('*', (req, res, next) => {
   next(
     new AppError(

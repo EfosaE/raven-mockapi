@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
     "target": "ES6",
+
+    "allowSyntheticDefaultImports": true,
+
     "module": "CommonJS", // because of this Knex library normally I compile to es6
     // "moduleResolution": "node", requires those .js extension in build
     "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "strict": true,
+    "typeRoots": ["./node_modules/@types"]
   },
-  "exclude": ["./src/types"]
+  "include": ["src/**/*"], // allows for access to type declarations
 }

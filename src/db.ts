@@ -1,13 +1,14 @@
 import knex from 'knex';
-import dotenv from 'dotenv';
+const knexfile = require('../knexfile.js'); // from my knexfile configurations
 
-dotenv.config();
 
-const db = knex({
-  client: 'mysql2',
-  connection: process.env.DATABASE_URL, // Connection URL
-});
+// Determine the current environment (default to 'development')
+const environment = process.env.NODE_ENV || 'development';
 
-console.log(process.env.DATABASE_URL);
+// Get the specific configuration for the environment
+const config = knexfile[environment];
+
+// Initialize Knex with the configuration
+const db = knex(config);
 
 export default db;
