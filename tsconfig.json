@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS", // because of this Knex library normally I compile to es6
+    // "moduleResolution": "node", requires those .js extension in build
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  },
+  "exclude": ["./src/types"]
+}
