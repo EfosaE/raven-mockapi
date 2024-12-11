@@ -4,11 +4,13 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+console.log(process.env.DATABASE_URL);
+
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 
-const knexConfig = {
+const development = {
   client: 'mysql2', // or 'pg' for PostgreSQL
   connection: process.env.DATABASE_URL,
   migrations: {
@@ -20,22 +22,21 @@ const knexConfig = {
   },
 };
 
-// const production = {
-//   client: 'postgresql',
-//   connection: {
-//     database: 'my_db',
-//     user: 'username',
-//     password: 'password'
-//   },
-//   pool: {
-//     min: 2,
-//     max: 10
-//   },
-//   migrations: {
-//     tableName: 'knex_migrations'
-//   }
-// };
+
+const production = {
+  client: 'mysql2', // or 'pg' for PostgreSQL
+  connection: process.env.DATABASE_URL,
+  migrations: {
+    directory: './knex/migrations',
+    tableName: 'knex_migrations',
+  },
+  seeds: {
+    directory: './knex/seeds',
+  },
+};
 
 module.exports = {
-  knexConfig,
+  development,
+  // staging,
+  production,
 };
