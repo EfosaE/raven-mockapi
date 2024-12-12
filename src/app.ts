@@ -21,6 +21,8 @@ app.use(cookieParser());
 
 const isProduction = process.env.NODE_ENV === 'production';
 console.log('isProduction?', isProduction);
+
+app.set('trust proxy', 1); // Required for secure cookies behind a proxy like Render
 // Initialize express-session
 app.use(
   session({
@@ -30,7 +32,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // Secure only in production
+      secure: isProduction, // Secure only in production
       sameSite: isProduction ? 'none' : 'lax', // Cross-origin in production, relaxed in dev
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
