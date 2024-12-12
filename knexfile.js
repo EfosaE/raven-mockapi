@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-console.log(process.env.DATABASE_URL);
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
