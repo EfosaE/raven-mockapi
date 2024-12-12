@@ -30,7 +30,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: isProduction, // Secure only in production
+      secure: false, // Secure only in production
       sameSite: isProduction ? 'none' : 'lax', // Cross-origin in production, relaxed in dev
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
