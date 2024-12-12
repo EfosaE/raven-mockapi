@@ -18,7 +18,9 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-console.log('Environment' , process.env.NODE_ENV);
+
+const isProduction = process.env.NODE_ENV === 'production';
+console.log('isProduction?', isProduction);
 // Initialize express-session
 app.use(
   session({
@@ -28,9 +30,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProduction, // Secure only in production
+      sameSite: isProduction ? 'none' : 'lax', // Cross-origin in production, relaxed in dev
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-      sameSite: 'none'
     },
   })
 );
