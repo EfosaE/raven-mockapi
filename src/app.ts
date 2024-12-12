@@ -18,7 +18,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-
+console.log('Environment' , process.env.NODE_ENV);
 // Initialize express-session
 app.use(
   session({
@@ -30,7 +30,7 @@ app.use(
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Required for cross-origin cookies
+      sameSite: 'none'
     },
   })
 );
