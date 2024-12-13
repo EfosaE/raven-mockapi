@@ -24,7 +24,7 @@ const globalErrorHandler = (
     });
   }
 
-   if (err.isOperational && isProduction) {
+   if (req.originalUrl.startsWith('/api') && isProduction) {
      return res
        .status(err.statusCode)
        .json({ status: err.status, message: err.message });
