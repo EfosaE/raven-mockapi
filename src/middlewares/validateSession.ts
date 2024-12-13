@@ -12,7 +12,7 @@ export const validateSession = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
   const sessionID = req.sessionID; // This is automatically set by express-session
 
-    console.log('sessionID',sessionID)
+    console.log('sessionID', sessionID)
 
     if (!sessionID) {
       return next(new AppError('Session ID is missing. Please log in.', 401));

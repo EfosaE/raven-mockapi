@@ -71,7 +71,7 @@ export const login = asyncHandler(
     const user = await db('users')
       .join('accounts', 'users.id', '=', 'accounts.user_id')
       .where('accounts.account_number', account_number)
-      .first(); // Get the first matching record
+      .first();
 
     console.log(user);
 
@@ -85,10 +85,16 @@ export const login = asyncHandler(
       return next(new AppError('invalid credentials', 400));
     }
 
+    if (user) {
+      delete user.password; // Remove the password field from the user object
+    }
     // Store user information in the new session
-    req.session.user = { id: user.id, username: user.username };
+    req.session.user = {
+      id: user.id,
+      username: `${user.first_name} ${user.last_name}`,
+    };
 
-    // Optionally, you can update the session in your database
+    // update the session in your database
     await db.raw(
       `
       INSERT INTO sessions (sid, sess, user_id, expired)
@@ -106,6 +112,6 @@ export const login = asyncHandler(
     );
 
     // Send the response to the client
-    res.status(200).json({ message: 'Login successful', userID: user.id });
+    res.status(200).json({ message: 'Login successful', user });
   }
 );

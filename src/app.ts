@@ -55,12 +55,19 @@ const port: number = 3000;
 
 // Define a route for the root path ('/')
 app.get('/', (req: Request, res: Response) => {
-  // Send a response to the client
   res.send('Hello from Raven Api');
 });
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+// Webhook endpoint
+app.post('/api/v1/webhook', (req, res) => {
+  console.log('Webhook received:', req.body);
+  
+  // Process the payload (e.g., save to database, trigger notifications)
+  
+  res.status(200).send('Webhook received successfully');
+});
 app.all('*', (req, res, next) => {
   next(
     new AppError(

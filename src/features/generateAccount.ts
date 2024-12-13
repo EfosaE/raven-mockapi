@@ -1,4 +1,4 @@
-import { AxiosPromise } from 'axios';
+
 import { axiosInstance } from '../axiosInstance';
 import { User } from '../types';
 

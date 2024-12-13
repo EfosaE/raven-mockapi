@@ -11,7 +11,6 @@ export type UserPayload = {
   username: string;
 };
 
-
 export type AccountResponse = {
   status: string;
   message: string;
@@ -28,4 +27,16 @@ export type AccountResponse = {
     isPermanent: boolean;
     amount: string;
   };
+};
+
+export type Transfer = {
+  account_number: string;
+  account_name: string;
+  bank: string;
+  narration: string;
+  reference?: string;
+  currency: string;
+  isPermanent: boolean;
+  amount: string;
+  bank_code: string;
 };
