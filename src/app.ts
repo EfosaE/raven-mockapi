@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const isProduction = process.env.NODE_ENV === 'production';
+export const isProduction = process.env.NODE_ENV === 'production';
 console.log('isProduction?', isProduction);
 
 app.set('trust proxy', 1); // Required for secure cookies behind a proxy like Render

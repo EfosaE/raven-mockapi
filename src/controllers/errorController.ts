@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import AppError from '../utils/appError';
+import { isProduction } from '../app';
 
 
 const globalErrorHandler = (
@@ -14,17 +15,23 @@ const globalErrorHandler = (
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (req.originalUrl.startsWith('/api')) {
+  if (req.originalUrl.startsWith('/api') && !isProduction) {
     return res.status(err.statusCode).json({
       status: err.status,
-      error: err, // You can choose to send specific error properties
+      error: err, // send specific error properties
       message: err.message,
       stack: err.stack,
     });
   }
 
+   if (err.isOperational && isProduction) {
+     return res
+       .status(err.statusCode)
+       .json({ status: err.status, message: err.message });
+   }
+
   // For non-API routes, still send a JSON error
-  res.status(err.statusCode).json({
+  return res.status(err.statusCode).json({
     message: err.message,
   });
 };
