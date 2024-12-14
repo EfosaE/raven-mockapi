@@ -29,7 +29,7 @@ export const signUp = asyncHandler(
 
     const accountResponse: AccountResponse = await generateAccount(userDetails);
 
-    console.log(accountResponse);
+    console.log('Raven Api response',accountResponse);
     if (accountResponse instanceof AxiosError || !accountResponse.data) {
       return next(new AppError('failed to generate account', 400));
     }

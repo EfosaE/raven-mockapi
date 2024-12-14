@@ -38,6 +38,11 @@ export const getTransferDetails = asyncHandler(
 
     const transaction = await db('transactions').where({ trx_ref }).first();
     console.log(transaction);
+    if (!transaction) {
+      return next(
+        new AppError(`No transaction was found for this ${trx_ref} `, 404)
+      );
+    }
     return res.status(200).json(transaction ?? []);
   }
 );
