@@ -40,7 +40,7 @@ export const getTransferDetails = asyncHandler(
     console.log(transaction);
     if (!transaction) {
       return next(
-        new AppError(`No transaction was found for this ${trx_ref} `, 404)
+        new AppError(`No transaction was found for this transaction ref:${trx_ref} `, 404)
       );
     }
     return res.status(200).json(transaction ?? []);
